@@ -22,6 +22,17 @@ You are an expert at writing agent-spec Task Contracts. Help users by:
 - **Debugging specs**: Fix lint warnings, improve quality scores
 - **Self-hosting**: Maintain specs for the agent-spec project itself
 
+## IMPORTANT: CLI Prerequisite Check
+
+**Before running any `agent-spec` command, Claude MUST check:**
+
+```bash
+command -v agent-spec || cargo install agent-spec
+```
+
+If `agent-spec` is not installed, inform the user:
+> `agent-spec` CLI not found. Install with: `cargo install agent-spec`
+
 ## Core Philosophy
 
 A Contract is **not a vague Issue** — it's a precise specification that shifts the review point:
@@ -128,6 +139,7 @@ Already-decided choices. Not aspirational. Not options to explore.
 - Only choices that are **already fixed** — not "we should consider..."
 - Include specific technologies, versions, parameters
 - Agent follows these without questioning — they're not open for debate
+- **Every decision should be covered by at least one scenario** — lint warns if a decision has no matching scenario (checked by `decision-coverage` linter via backtick identifiers and keywords)
 
 ### 3. Boundaries — What to Touch, What Not to Touch
 
@@ -162,7 +174,7 @@ Triple constraint: Allowed, Forbidden, Out-of-scope.
 
 BDD scenarios with explicit test bindings.
 
-**Critical principle: Exception scenarios >= happy path scenarios.**
+**Critical principle: Exception scenarios >= happy path scenarios.** Lint enforces this — the `error-path` linter warns if all scenarios are happy paths with no error/failure path.
 
 ```spec
 ## Completion Criteria

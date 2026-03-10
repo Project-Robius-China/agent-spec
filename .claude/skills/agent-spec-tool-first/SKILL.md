@@ -21,6 +21,17 @@ You are an expert at using `agent-spec` as a CLI tool for contract-driven AI cod
 - **Reviewing**: Use `explain` for human-readable summaries, `stamp` for git trailers
 - **Debugging**: Interpret verification failures and fix code accordingly
 
+## IMPORTANT: CLI Prerequisite Check
+
+**Before running any `agent-spec` command, Claude MUST check:**
+
+```bash
+command -v agent-spec || cargo install agent-spec
+```
+
+If `agent-spec` is not installed, inform the user:
+> `agent-spec` CLI not found. Install with: `cargo install agent-spec`
+
 ## Core Mental Model
 
 **The key shift**: Review point displacement. Human attention moves from "reading code diffs" to "writing contracts".
@@ -81,7 +92,7 @@ agent-spec parse specs/user-registration.spec
 agent-spec lint specs/user-registration.spec --min-score 0.7
 ```
 
-Catches: malformed structure, zero-scenario acceptance sections, vague verbs, unquantified constraints, non-deterministic wording, missing test selectors, sycophancy bias, uncovered constraints.
+Catches: malformed structure, zero-scenario acceptance sections, vague verbs, unquantified constraints, non-deterministic wording, missing test selectors, sycophancy bias, uncovered constraints, uncovered decisions (decision-coverage), missing error paths (error-path).
 
 **Required self-checks before coding:**
 - `agent-spec parse` must show the expected section count and a non-zero scenario count for task specs.
